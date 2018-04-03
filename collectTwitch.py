@@ -3,9 +3,12 @@ import json
 
 def main():
     key_value = get_twitch()
-    print(key_value)
-    get_next_page(key_value)
-      
+    while key_value != None:
+        get_next_page(key_value)
+    print('out of loop')
+
+    
+    
 #def create_json_library():
 
 def get_twitch():
@@ -14,24 +17,27 @@ def get_twitch():
     headers = {"Client-ID": "t8ag4decgvfrpm3foi7mxb3rgqgleg"}
     response = requests.get(URL, headers=headers)
 
-    print(response.status_code)
     parsed_json = json.loads(response.text)
-    key_value = parsed_json['pagination']['cursor']
-    print('passing key... ' + key_value)
+    page_number = parsed_json['pagination']['cursor']
+    print('starting to write')
+    
+    with open("data.text", 'w') as outfile:
+        json.dump(parsed_json, outfile)
 
-    return key_value
+    return page_number
+
 
 def get_next_page(page_number):
     
     URL = 'https://api.twitch.tv/helix/streams'
     headers = {"Client-ID": "t8ag4decgvfrpm3foi7mxb3rgqgleg"}
     params = {"after": page_number}
-    print(params)
     response = requests.get(URL, headers=headers, params=params)    
     print(response.status_code)
 
     parsed_json = json.loads(response.text)
-    print(parsed_json)
+    iterative_page = parsed_json['pagination']['cursor']
+    return iterative_page
 
 main()
 

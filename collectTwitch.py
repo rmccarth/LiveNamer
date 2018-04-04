@@ -1,10 +1,12 @@
 import requests  
 import json
+import bs4
+
 
 def main():
     key_value = get_twitch()                                # Take the value given by the "cursor" field in the JSON response and store it in key_value. 
-    while key_value != None:                                # Trying to iterate here in order to pull down all pages based on the cursor field number.
-        get_next_page(key_value)                            # When the cursor field is not longer populated, we don't have to query the API anymore (we willl have all data)
+    """while key_value != None:                                # Trying to iterate here in order to pull down all pages based on the cursor field number.
+        get_next_page(key_value)"""                            # When the cursor field is not longer populated, we don't have to query the API anymore (we willl have all data)
 
     print('out of loop')                
 
@@ -20,10 +22,18 @@ def get_twitch():
 
     parsed_json = json.loads(response.text)                         # Stores the response in JSON dictionary format. 
     page_number = parsed_json['pagination']['cursor']               # Storing the cursor value here (JSON dictionary lookup)
-    print('starting to write')
     
-    with open("data.text", 'w') as outfile:                         # Write the JSON dump to the file. **Need to figure out how to not overwrite the data 
-        json.dump(parsed_json, outfile)                             # we've written in**
+    storage = []
+    for item in parsed_json['data']:
+        if 'title' and 'viewer_count' in item:
+            #print(item['title'] + ' ' + str(item['viewer_count']))
+            storage.append(item['title'])
+            storage.append(item['viewer_count'])
+            with open("workfile.txt",'a',encoding = 'utf-8') as dirtyfile:
+                dirtyfile.write(item['title'] + ' ' + str(item['viewer_count']))
+   
+    
+
 
     return page_number
 

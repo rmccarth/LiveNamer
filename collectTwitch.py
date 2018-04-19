@@ -33,11 +33,10 @@ def get_twitch(after_value):
     
     storage = []
     if response.status_code != '429':  
-        with open("test.txt", 'a', encoding='utf-8') as dirtyfile:                         # fix with
+        with open("test4.txt", 'a', encoding='utf-8') as dirtyfile:                         # fix with
             for item in parsed_json['data']:
                 
                 if 'title' and 'viewer_count' in item:
-                    print('found title and viewer_count')
 
                     title = item['title'].replace('\t', "")
                     if title not in storage:

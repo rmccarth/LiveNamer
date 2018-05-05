@@ -9,7 +9,7 @@ data_cleaning.py: filepath should be changed to the xlsx where "test4.txt" from 
 postJSON.py: change wb=openpyxl.load_workbook to the data_cleaning.py xlsx destination. 
 analysis.py: convert xlsx files to csv and then change the pd.read_csv filepath to match the csv's created. 
 
-**c_app and postJSON** please note that these files contain HTTP POST requests to an API enpoint with a 
+**c_app and postJSON** please note that these files contain HTTP POST requests to an API endpoint with a 
 real credit card attached to the data collection amounts. Extraordinarily high (>100,000) POST request counts will result
 in real financial charges to the account holder. 
 

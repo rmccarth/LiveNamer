@@ -31,24 +31,11 @@ def get_twitch(after_value):
     parsed_json = json.loads(response.text)                      # Stores the response in JSON dictionary format. 
     after_value = parsed_json['pagination']['cursor']               # Storing the cursor value here (JSON dictionary lookup)
     
-    storage = []
     if response.status_code != '429':  
-        with open("test4.txt", 'a', encoding='utf-8') as dirtyfile:                         # fix with
+        with open("json.txt", 'a', encoding='utf-8') as dirtyfile:                         # fix with
             for item in parsed_json['data']:
                 
-                if 'title' and 'viewer_count' in item:
-
-                    title = item['title'].replace('\t', "")
-                    if title not in storage:
-                    
-                        storage.append(title)
-                    
-                        dirtyfile.write(title)
-                    
-                        storage.append(item['viewer_count'])
-                   
-                        dirtyfile.write('\t')
-                        dirtyfile.write(str(item['viewer_count']))
+                        dirtyfile.write(str(item))
                         dirtyfile.write('\n')
 
     if response.status_code == '429':
